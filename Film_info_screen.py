@@ -42,6 +42,8 @@ class Film_screen(QWidget):
         film_dict = json.loads(response.text)
         pprint(film_dict)
 
+        self.label1 = Q
+
 
 
 if __name__ == "__main__":
