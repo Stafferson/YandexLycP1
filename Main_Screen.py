@@ -25,9 +25,6 @@ class Main_Screen(QWidget):
         self.setGeometry(0, 0, 1500, 1000)
         self.setWindowTitle("Films App")
 
-        check_con = CheckConnectivity()
-
-
         self.label1 = QPushButton(self)
         self.label1.setGeometry(20, 20, 300, 150)
         self.label1.setText("My liked films")
