@@ -1,16 +1,19 @@
 import json
+import os
+import threading
 from pprint import pprint
 
 import requests
 import sys
-import Film_info_screen
-from PyQt5.uic.properties import QtGui
 import Film_info_screen
 
 from PyQt5.QtWidgets import *
 
 counter = 10
 imdb_dict = {}
+film_id = ""
+film_image_url = ""
+film_title = ""
 
 
 class Main_Screen(QWidget):
@@ -24,6 +27,9 @@ class Main_Screen(QWidget):
         # super(Main_Screen, self).__init__()
         self.setGeometry(0, 0, 1500, 1000)
         self.setWindowTitle("Films App")
+
+        thread1 = threading.Thread(target=self.thread_function)
+        thread1.start()
 
         self.label1 = QPushButton(self)
         self.label1.setGeometry(20, 20, 300, 150)
@@ -43,22 +49,25 @@ class Main_Screen(QWidget):
 
         self.label5 = QListWidget(self)
         self.label5.setGeometry(500, 20, 500, 800)
-        url = "https://imdb-api.com/en/API/Top250Movies/k_907znyrc"
-        response = requests.get(url)
-        imdb_dict = json.loads(response.text)
-        pprint(imdb_dict)
-        for i in range(counter):
-            self.label5.addItem((imdb_dict["items"])[i]["fullTitle"])
+        #try:
+        #url = "https://imdb-api.com/en/API/Top250Movies/k_907znyrc"
+        #response = requests.get(url)
+        #imdb_dict = json.loads(response.text)
+        #pprint(imdb_dict)
+        #for i in range(counter):
+        #    self.label5.addItem((imdb_dict["items"])[i]["fullTitle"])
         self.label5.addItem("Load next 10 films")
-        self.label5.verticalScrollBar().valueChanged.connect(self.scrolled)
         self.label5.itemClicked.connect(self.click)
+        self.label5.verticalScrollBar().valueChanged.connect(lambda value: self.scrolled(value))
+        #except:
+            #for i in range(100):
+                #self.label5.addItem("Internet connection problems")
+        #url_image = 'https://m.media-amazon.com/images/M/MV5BYzJmMWE5NjAtNWMyZS00NmFiLWIwMDgtZDE2NzczYWFhNzIzXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_UX128_CR0,3,128,176_AL_.jpg'
 
-        url_image = 'https://m.media-amazon.com/images/M/MV5BYzJmMWE5NjAtNWMyZS00NmFiLWIwMDgtZDE2NzczYWFhNzIzXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_UX128_CR0,3,128,176_AL_.jpg'
-
-        from PyQt5.QtGui import QImage
-        self.image = QImage()
-        self.image.loadFromData(requests.get(url_image).content)
-
+        #rom PyQt5.QtGui import QImage
+        #self.image = QImage()
+        #self.image.loadFromData(requests.get(url_image).content)
+        """
         self.label6 = QLabel()
         self.label6.setGeometry(20, 530, 300, 150)
         self.label6.setScaledContents(True)
@@ -68,6 +77,9 @@ class Main_Screen(QWidget):
         self.grid = QGridLayout()
         #self.grid.addWidget(self.label6, 0, 0)
         self.setLayout(self.grid)
+        """
+
+        '''
         self.label6 = QPushButton(self)
         self.label6.setGeometry(670, 840, 160, 50)
         self.label6.setText("Top ")
@@ -87,11 +99,12 @@ class Main_Screen(QWidget):
         self.label9.setGeometry(670, 840, 160, 50)
         self.label9.setText("Load more")
         self.label9.clicked.connect(self.click)
+        '''
 
 
     def scrolled(self, value):
         if value == self.label5.verticalScrollBar().maximum():
-            print("TOP!!!")
+            print("bottom!!!")
 
     def click(self, item):
         global imdb_dict
@@ -108,10 +121,13 @@ class Main_Screen(QWidget):
                     self.label5.insertItem(counter - 10, (imdb_dict["items"])[i]["fullTitle"])
         else:
             Film_info_screen.film_full_title = item.text()
-            Film_info_screen.search_type = 1
             self.w = Film_info_screen.Film_screen()
             self.w.show()
             ex.close()
+
+    def thread_function(name):
+        print(os.path.exists("Test.py"))
+        
 
 
 if __name__ == "__main__":
