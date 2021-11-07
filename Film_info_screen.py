@@ -1,4 +1,5 @@
 import json
+import sqlite3
 import sys
 import urllib
 from pprint import pprint
@@ -7,20 +8,25 @@ import requests
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import *
 
+from DBClass import DBClass
+
 film_full_title = ""
 
 film_id = ""
-film_imdb_rating = ""
-film_imdb_rating_count = ""
+#film_imdb_rating = ""
+#film_imdb_rating_count = ""
 film_image_url = ""
 film_title = ""
-film_ = ""
+
+film_dict = {}
 
 is_watched = "0"
 is_saved = "0"
 is_commented = "0"
 
 class Film_screen(QWidget):
+    con = ""
+    cur = ""
 
     def __init__(self):
         super().__init__()
@@ -28,6 +34,7 @@ class Film_screen(QWidget):
 
     def initUI(self):
         global film_full_title
+        global film_dict
 
         super(Film_screen, self).__init__()
         self.setGeometry(0, 0, 1500, 1000)
@@ -73,9 +80,15 @@ class Film_screen(QWidget):
         #self.label6.clicked.connect(self.click_edit_comment)
         self.label6.hide()
 
+        #db = DBClass()
+        #db.connect("yandex_project_1")
+        self.con = sqlite3.connect("yandex_project_1")
+        self.cur = self.con.cursor()
+
+
     def click(self, button_type):
         if button_type == "1":
-            print("1")
+            query = "insert into film_favorite(film_id)"
         elif button_type == "2":
             print("2")
         elif button_type == "3":

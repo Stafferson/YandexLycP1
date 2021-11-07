@@ -49,13 +49,13 @@ class Main_Screen(QWidget):
 
         self.label5 = QListWidget(self)
         self.label5.setGeometry(500, 20, 500, 800)
-        #try:
-        #url = "https://imdb-api.com/en/API/Top250Movies/k_907znyrc"
-        #response = requests.get(url)
-        #imdb_dict = json.loads(response.text)
-        #pprint(imdb_dict)
-        #for i in range(counter):
-        #    self.label5.addItem((imdb_dict["items"])[i]["fullTitle"])
+
+        url = "https://imdb-api.com/en/API/Top250Movies/k_907znyrc"
+        response = requests.get(url)
+        imdb_dict = json.loads(response.text)
+        pprint(imdb_dict)
+        for i in range(counter):
+            self.label5.addItem((imdb_dict["items"])[i]["fullTitle"])
         self.label5.addItem("Load next 10 films")
         self.label5.itemClicked.connect(self.click)
         self.label5.verticalScrollBar().valueChanged.connect(lambda value: self.scrolled(value))
