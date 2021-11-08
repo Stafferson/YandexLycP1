@@ -9,12 +9,13 @@ import Film_info_screen
 
 from PyQt5.QtWidgets import *
 
+import global_vars
+
 counter = 10
 imdb_dict = {}
 film_id = ""
 film_image_url = ""
 film_title = ""
-
 
 class Main_Screen(QWidget):
 
@@ -28,8 +29,8 @@ class Main_Screen(QWidget):
         self.setGeometry(0, 0, 1500, 1000)
         self.setWindowTitle("Films App")
 
-        thread1 = threading.Thread(target=self.thread_function)
-        thread1.start()
+        #thread1 = threading.Thread(target=self.thread_function)
+        #thread1.start()
 
         self.label1 = QPushButton(self)
         self.label1.setGeometry(20, 20, 300, 150)
@@ -50,10 +51,10 @@ class Main_Screen(QWidget):
         self.label5 = QListWidget(self)
         self.label5.setGeometry(500, 20, 500, 800)
 
-        url = "https://imdb-api.com/en/API/Top250Movies/k_907znyrc"
+        url = "https://imdb-api.com/en/API/Top250Movies/" + global_vars.var_API
         response = requests.get(url)
         imdb_dict = json.loads(response.text)
-        pprint(imdb_dict)
+        #pprint(imdb_dict)
         for i in range(counter):
             self.label5.addItem((imdb_dict["items"])[i]["fullTitle"])
         self.label5.addItem("Load next 10 films")
@@ -123,12 +124,10 @@ class Main_Screen(QWidget):
             Film_info_screen.film_full_title = item.text()
             self.w = Film_info_screen.Film_screen()
             self.w.show()
-            ex.close()
+            #ex.close()
 
-    def thread_function(name):
-        print(os.path.exists("Test.py"))
-        
-
+    #def thread_function(name):
+    #    print(os.path.exists("Test.py"))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
