@@ -121,13 +121,14 @@ class Main_Screen(QWidget):
                 for i in range(counter - 1, counter - 11, -1):
                     self.label5.insertItem(counter - 10, (imdb_dict["items"])[i]["fullTitle"])
         else:
+            #self.nextWindow()
             Film_info_screen.film_full_title = item.text()
-            self.w = Film_info_screen.Film_screen()
-            self.w.show()
-            #ex.close()
+            w = Film_info_screen.Film_screen()
+            w.show()
+            #ex.hide()
 
-    #def thread_function(name):
-    #    print(os.path.exists("Test.py"))
+    def thread_function(name):
+        print(os.path.exists("Test.py"))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

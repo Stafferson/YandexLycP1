@@ -7,7 +7,7 @@ import urllib
 from pprint import pprint
 
 import requests
-from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtGui import QPixmap, QIcon, QImage
 from PyQt5.QtWidgets import *
 
 import time
@@ -57,20 +57,28 @@ class Film_screen(QWidget):
         cur = con.cursor()
 
         api_link = "https://imdb-api.com/en/API/SearchMovie/" + global_vars.var_API + "/" + film_full_title
-        print(api_link)
+        #print(api_link)
         #self.get_info(search_type, film_title, api_link)
         response = requests.get(api_link)
         film_dict = json.loads(response.text)
-        print(film_dict)
+        #print(film_dict)
 
         film_id = (film_dict["results"])[0]["id"]
         film_title = (film_dict["results"])[0]["title"]
         film_image_url = (film_dict["results"])[0]["image"]
-        print("!!!!!!!!!")
-        print(film_id)
-        print(film_title)
-        print(film_image_url)
-        print("!!!!!!!!!")
+        #print("!!!!!!!!!")
+        #print(film_id)
+        #print(film_title)
+        #print(film_image_url)
+        #print("!!!!!!!!!")
+
+        image = QImage()
+        image.loadFromData(requests.get(film_image_url).content)
+        image = (QPixmap(image)).scaled(800, 400)
+
+        image_label = QLabel()
+        image_label.setPixmap(QPixmap(image))
+        image_label.show()
 
         self.label1 = QPushButton(self)
         self.label1.setGeometry(20, 20, 300, 150)
@@ -86,7 +94,7 @@ class Film_screen(QWidget):
         self.label3.setGeometry(20, 360, 300, 150)
         self.label3.setText("Add personal comment")
         self.label3.clicked.connect(lambda: self.click("3"))
-        print("1!!!!!!!!!")
+        #print("1!!!!!!!!!")
 
         #########################################################
 
@@ -107,7 +115,7 @@ class Film_screen(QWidget):
         self.label6.setText("Edit personal comment")
         self.label6.clicked.connect(lambda: self.click("3"))
         self.label6.hide()
-        print("2!!!!!!!!!")
+        #print("2!!!!!!!!!")
 
         #########################################################3
 
@@ -120,12 +128,13 @@ class Film_screen(QWidget):
         self.label8.setText("Save comment")
         self.label8.hide()
         self.label8.clicked.connect(lambda: self.click("4"))
-
+        '''
         self.label9 = QPushButton(self)
         self.label9.setGeometry(20, 880, 180, 100)
         self.label9.setText("Go Back")
         self.label9.clicked.connect(lambda: self.click("6"))
         print("3!!!!!!!!!")
+        '''
 
         #########################################################
 
@@ -133,7 +142,7 @@ class Film_screen(QWidget):
         self.label10.setGeometry(1280, 20, 200, 150)
         self.label10.setText("Download information in txt")
         self.label10.clicked.connect(lambda: self.click("9"))
-        print("4!!!!!!!!!")
+        #print("4!!!!!!!!!")
 
         thread1 = threading.Thread(target=self.thread_function("gay"))
         thread1.start()
@@ -147,23 +156,23 @@ class Film_screen(QWidget):
         cur = con.cursor()
         query = "SELECT EXISTS(SELECT 1 FROM film_favorite WHERE film_id = '" + film_id + "');"
         res = cur.execute(query).fetchall()
-        print(res)
+        #print(res)
         if str(res[0][0]) == "1":
             self.label1.hide()
             self.label4.show()
             is_saved = True
         query = "SELECT EXISTS(SELECT 1 FROM film_watched WHERE film_id = '" + film_id + "');"
         res = cur.execute(query).fetchall()
-        print(query)
-        print(res)
+        #print(query)
+        #print(res)
         if str(res[0][0]) == "1":
             self.label2.hide()
             self.label5.show()
             is_watched = True
         query = "SELECT EXISTS(SELECT 1 FROM film_comments WHERE film_id = '" + film_id + "');"
         res = cur.execute(query).fetchall()
-        print(query)
-        print(res)
+        #print(query)
+        #print(res)
         if str(res[0][0]) == "1":
             self.label3.hide()
             self.label6.show()
@@ -171,11 +180,11 @@ class Film_screen(QWidget):
             #self.label8.clicked.connect(lambda: self.click("4_edit"))
             query = "SELECT film_comment from film_comments where film_id = '" + film_id + "'"
             res = cur.execute(query).fetchall()
-            print("##########################")
-            print(query)
-            print(res)
+            #print("##########################")
+            #print(query)
+            #print(res)
             self.label7.setText(res[0][0])
-            print("##########################")
+            #print("##########################")
 
     def click(self, button_type):
         global con
@@ -187,18 +196,24 @@ class Film_screen(QWidget):
         global is_saved
 
         if button_type == "1":
-            query = "insert into film_favorite(film_id) values('" + film_id + "')"
-            cur.execute(query)
-            con.commit()
-            self.label1.hide()
-            self.label4.show()
+            try:
+                query = "insert into film_favorite(film_id) values('" + film_id + "')"
+                cur.execute(query)
+                con.commit()
+                self.label1.hide()
+                self.label4.show()
+            except:
+                self.label1.setText("Something wrong occured")
 
         elif button_type == "2":
-            query = "insert into film_watched(film_id) values('" + film_id + "')"
-            cur.execute(query)
-            con.commit()
-            self.label2.hide()
-            self.label5.show()
+            try:
+                query = "insert into film_watched(film_id) values('" + film_id + "')"
+                cur.execute(query)
+                con.commit()
+                self.label2.hide()
+                self.label5.show()
+            except:
+                self.label2.setText("Something wrong occured")
 
         elif button_type == "3":
             if (countR):
@@ -223,7 +238,7 @@ class Film_screen(QWidget):
         elif button_type == "4":
             if is_commented:
                 if self.label7.text() != "":
-                    print("SOIDET")
+                    #print("SOIDET")
                     query = "update film_comments set film_comment = '" + self.label7.text() + "' where film_id = '" + film_id + "'"
                     print(query)
                     cur.execute(query)
@@ -237,47 +252,50 @@ class Film_screen(QWidget):
                     #time.sleep(2)
                     #self.label8.setText("Save comment")
             else:
-                query = "insert into film_comments(film_id, film_comment) values('" + film_id + "', '" + self.label7.text() + "')"
-                cur.execute(query)
-                con.commit()
-                self.label3.hide()
-                self.label6.show()
-                self.label8.hide()
-                self.label7.hide()
+                try:
+                    query = "insert into film_comments(film_id, film_comment) values('" + film_id + "', '" + self.label7.text() + "')"
+                    cur.execute(query)
+                    con.commit()
+                    self.label3.hide()
+                    self.label6.show()
+                    self.label8.hide()
+                    self.label7.hide()
+                except:
+                    self.label7.setText("Something wrong occured")
+
 
         #elif button_type == "5" была похоронена
 
         elif button_type == "6":
-            print("back!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!fucker!!!!!!!!!!!!!!!!!!!!!!!!")
+            w = Main_Screen.show()
+            self.hide()
 
         elif button_type == "7":
-            print("pressed 7")
+            #print("pressed 7")
             query = "delete from film_favorite where film_id = '" + film_id + "'"
-            print(query)
+            #print(query)
             cur.execute(query)
             con.commit()
             self.label4.hide()
             self.label1.show()
 
         elif button_type == "8":
-            print("pressed 8")
+            #print("pressed 8")
             query = "delete from film_watched where film_id = '" + film_id + "'"
-            print(query)
+            #print(query)
             cur.execute(query)
             con.commit()
             self.label5.hide()
             self.label2.show()
 
         elif button_type == "9":
-            print("download info")
-            file = open("information.txt", mode="w")
+            #print("download info")
+            path = QFileDialog.getSaveFileName(self, filter="*.txt")
+            #print(path)
+            file = open(path[0], mode="w")
             file.truncate(0)
             file.write(film_id + "\n" + film_full_title)
             file.close()
-            path = QFileDialog.saveFileContent(self, file)
-
-
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
