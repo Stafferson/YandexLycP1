@@ -14,7 +14,7 @@ import time
 
 import global_vars
 from DBClass import DBClass
-from Main_Screen import Main_Screen
+import Main_Screen
 
 film_full_title = ""
 
@@ -52,6 +52,7 @@ class Film_screen(QWidget):
         super(Film_screen, self).__init__()
         self.setGeometry(0, 0, 1500, 1000)
         self.setWindowTitle("Films App")
+        self.w = None
 
         con = sqlite3.connect("yandex_project_1.sqlite")
         cur = con.cursor()
@@ -128,13 +129,12 @@ class Film_screen(QWidget):
         self.label8.setText("Save comment")
         self.label8.hide()
         self.label8.clicked.connect(lambda: self.click("4"))
-        '''
+
         self.label9 = QPushButton(self)
         self.label9.setGeometry(20, 880, 180, 100)
         self.label9.setText("Go Back")
         self.label9.clicked.connect(lambda: self.click("6"))
-        print("3!!!!!!!!!")
-        '''
+        #print("3!!!!!!!!!")
 
         #########################################################
 
@@ -267,8 +267,15 @@ class Film_screen(QWidget):
         #elif button_type == "5" была похоронена
 
         elif button_type == "6":
-            w = Main_Screen.show()
-            self.hide()
+            if self.w is None:
+                #print("112312132")
+                self.w = Main_Screen.Main_Screen()
+                self.w.show()
+                self.close()
+            else:
+                #print("11233232323232")
+                self.w.close()
+                self.w = None
 
         elif button_type == "7":
             #print("pressed 7")
