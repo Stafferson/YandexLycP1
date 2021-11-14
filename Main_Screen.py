@@ -10,13 +10,15 @@ from PyQt5.QtWidgets import *
 
 import Film_info_screen
 import Liked_movies
+import Watched_movies
 import global_vars
 counter = 10
 
-imdb_dict = {}
-film_id = ""
-film_image_url = ""
-film_title = ""
+#imdb_dict = {}
+#film_id = ""
+#film_image_url = ""
+#film_title = ""
+
 class Main_Screen(QWidget):
 
     def __init__(self):
@@ -41,16 +43,16 @@ class Main_Screen(QWidget):
         self.label2 = QPushButton(self)
         self.label2.setGeometry(20, 190, 300, 150)
         self.label2.setText("My comments about films")
-        #self.label2.clicked.connect(lambda: self.move("2"))
+        self.label2.clicked.connect(lambda: self.move("2"))
 
         self.label3 = QPushButton(self)
         self.label3.setGeometry(20, 360, 300, 150)
         self.label3.setText("My watched movies")
-        #self.label3.clicked.connect(lambda: self.move("3"))
+        self.label3.clicked.connect(lambda: self.move("3"))
 
-        self.label4 = QPushButton(self)
-        self.label4.setGeometry(20, 530, 300, 150)
-        self.label4.setText("My statistics")
+        #self.label4 = QPushButton(self)
+        #self.label4.setGeometry(20, 530, 300, 150)
+        #self.label4.setText("My statistics")
         #self.label4.clicked.connect(lambda: self.move("4"))
 
         self.label5 = QListWidget(self)
@@ -148,6 +150,27 @@ class Main_Screen(QWidget):
                 #print("11233232323232")
                 self.w.close()
                 self.w = None
+        if (num == "2"):
+            if self.w is None:
+                # print("112312132")
+                self.w = Comments_movies.Comments_movies()
+                self.w.show()
+                self.close()
+            else:
+                # print("11233232323232")
+                self.w.close()
+                self.w = None
+        if (num == "3"):
+            if self.w is None:
+                #print("112312132")
+                self.w = Watched_movies.Watched_movies()
+                self.w.show()
+                self.close()
+            else:
+                #print("11233232323232")
+                self.w.close()
+                self.w = None
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
