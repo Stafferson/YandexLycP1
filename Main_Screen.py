@@ -11,13 +11,12 @@ from PyQt5.QtWidgets import *
 import Film_info_screen
 import Liked_movies
 import global_vars
-'''
 counter = 10
+
 imdb_dict = {}
 film_id = ""
 film_image_url = ""
 film_title = ""
-'''
 class Main_Screen(QWidget):
 
     def __init__(self):
@@ -68,7 +67,7 @@ class Main_Screen(QWidget):
             self.label5.verticalScrollBar().valueChanged.connect(lambda value: self.scrolled(value))
         except:
             for i in range(100):
-                self.label5.addItem("Internet connection problems")
+                self.label5.addItem("Probably internet connection problems")
         #url_image = 'https://m.media-amazon.com/images/M/MV5BYzJmMWE5NjAtNWMyZS00NmFiLWIwMDgtZDE2NzczYWFhNzIzXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_UX128_CR0,3,128,176_AL_.jpg'
 
         #rom PyQt5.QtGui import QImage

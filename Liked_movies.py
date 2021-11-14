@@ -40,6 +40,8 @@ class Liked_movies(QWidget):
         cur = con.cursor()
         query = "SELECT film_id from film_favorite"
         res = cur.execute(query).fetchall()
+        #print("GAY11111111111111111111!")
+        #pprint(res)
         #print(len(res))
 
         thread1 = threading.Thread(target=self.thread_function)
@@ -67,9 +69,6 @@ class Liked_movies(QWidget):
         self.label2.setGeometry(180, 840, 200, 120)
         self.label2.setText("Go back")
         self.label2.clicked.connect(self.back)
-
-        thread1 = threading.Thread(target=self.thread_function)
-        thread1.start()
 
     def click(self, item):
         Film_info_screen.film_full_title = item.text()
@@ -99,17 +98,21 @@ class Liked_movies(QWidget):
                 self.label1.addItem("Add some movies first")
         else:
             self.any_favorite = True
+            print(len(res))
             for i in range(len(res)):
                 api_link = "https://imdb-api.com/en/API/Title/" + global_vars.var_API + "/" + res[i][0]
+                print("12")
+                print(res[i][0])
                 #api_link = "https://imdb-api.com/en/API/Title/k_8fn0w7v6/tt0110413"
-                print(api_link)
+                #print(api_link)
                 #self.get_info(search_type, film_title, api_link)
                 response = requests.get(api_link)
                 fav_film_dict = json.loads(response.text)
-                pprint(fav_film_dict)
+                #pprint(fav_film_dict)
                 self.label1.addItem(fav_film_dict["fullTitle"])
-                print(fav_film_dict["fullTitle"])
+                #print(fav_film_dict["fullTitle"])
                 self.label1.itemClicked.connect(self.click)
+                print("12121")
 
 
 if __name__ == "__main__":
