@@ -33,8 +33,6 @@ class Main_Screen(QWidget):
         self.setGeometry(0, 0, 1500, 1000)
         self.setWindowTitle("Films App")
         self.w = None
-        self.w1 = None
-        self.w2 = None
 
 
         #thread1 = threading.Thread(target=self.thread_function)
@@ -57,8 +55,8 @@ class Main_Screen(QWidget):
 
         self.label4 = QPushButton(self)
         self.label4.setGeometry(20, 530, 300, 150)
-        self.label4.setText("My statistics")
-        #self.label4.clicked.connect(lambda: self.move("4"))
+        self.label4.setText("Search for movie")
+        self.label4.clicked.connect(lambda: self.move("4"))
 
         self.label5 = QListWidget(self)
         self.label5.setGeometry(500, 20, 500, 800)
@@ -157,25 +155,35 @@ class Main_Screen(QWidget):
                 self.w.close()
                 self.w = None
         elif (num == "2"):
-            if self.w1 is None:
+            if self.w is None:
                 print("2")
-                self.w1 = Comments_movies.Comments_movies()
-                self.w1.show()
+                self.w = Comments_movies.Comments_movies()
+                self.w.show()
                 self.close()
             else:
                 print("2.1")
-                self.w1.close()
-                self.w1 = None
+                self.w.close()
+                self.w = None
         elif (num == "3"):
-            if self.w2 is None:
+            if self.w is None:
                 print("3")
-                self.w2 = Watched_movies.Watched_movies()
-                self.w2.show()
+                self.w = Watched_movies.Watched_movies()
+                self.w.show()
                 self.close()
             else:
                 print("3.1")
-                self.w2.close()
-                self.w2 = None
+                self.w.close()
+                self.w = None
+        elif (num == "4"):
+            if self.w is None:
+                print("4")
+                self.w = Watched_movies.Watched_movies()
+                self.w.show()
+                self.close()
+            else:
+                print("4.1")
+                self.w.close()
+                self.w = None
 
 
 if __name__ == "__main__":
