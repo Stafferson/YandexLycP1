@@ -24,8 +24,7 @@ class Find_movies(QWidget):
         self.initUI()
 
     def initUI(self):
-        global imdb_dict
-        global res
+
         super().__init__()
         self.setGeometry(0, 0, 600, 1000)
         self.setWindowTitle("Films App")
@@ -81,8 +80,8 @@ class Find_movies(QWidget):
         self.hide()
 
     def find_movie(self):
-        api_link = "https://imdb-api.com/en/API/Title/" + global_vars.var_API + "/" + self.label3.text()
-        # print(api_link)
+        api_link = "https://imdb-api.com/en/API/SearchMovie/" + global_vars.var_API + "/" + self.label3.text()
+        print(api_link)
         # print("!!!!!!!!!")
         # print("12")
         # print(res[i][0])
@@ -91,11 +90,15 @@ class Find_movies(QWidget):
         # self.get_info(search_type, film_title, api_link)
         response = requests.get(api_link)
         film_dict = json.loads(response.text)
+        #pprint(film_dict)
         pprint(film_dict)
-        if (film_dict["fullTitle"] == None):
-            #print("EYSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
-            self.label4.setText("Try again")
-        #else:
+        try:
+            if (film_dict["fullTitle"] == None):
+                # print("EYSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
+                self.label4.setText("Try again")
+        except:
+            for i in range(len(film_dict["results"])):
+                self.label1.addItem(film_dict["results"][i]["title"])
 
     def back(self):
         if self.w is None:

@@ -9,6 +9,7 @@ import sys
 from PyQt5.QtWidgets import *
 
 import Film_info_screen
+import Find_movies
 import Liked_movies
 import Watched_movies
 import global_vars
@@ -177,7 +178,7 @@ class Main_Screen(QWidget):
         elif (num == "4"):
             if self.w is None:
                 print("4")
-                self.w = Watched_movies.Watched_movies()
+                self.w = Find_movies.Find_movies()
                 self.w.show()
                 self.close()
             else:

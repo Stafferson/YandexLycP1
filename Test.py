@@ -1,19 +1,8 @@
-import sys
-import requests
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel
-from PyQt5.QtGui import QImage, QPixmap
+from pprint import pprint
 
-url_image = 'https://live.staticflickr.com/65535/49251422908_591245c64a_c_d.jpg'
-
-app = QApplication([])
-
-image = QImage()
-image.loadFromData(requests.get(url_image).content)
-image = (QPixmap(image)).scaled(800, 400)
-
-image_label = QLabel()
-image_label.setPixmap(QPixmap(image))
-image_label.show()
-
-app.exec_()
+dict = {"searchType":"Movie","expression":"gay","results":[{"id":"tt0393321","resultType":"Title","image":"https://imdb-api.com/images/original/MV5BZjcxMGFlN2ItMzM0Zi00OTdjLTkwZDktMTMxMTA1OGRmMTU1XkEyXkFqcGdeQXVyNjM2MDY5MTk@._V1_Ratio0.7273_AL_.jpg","title":"Gay in Amsterdam","description":"(2004)"},{"id":"tt8014250","resultType":"Title","image":"https://imdb-api.com/images/original/MV5BZjRlYTY4NDItMTcyNC00NWRkLWIyODctM2U3ODc4MGQ1ZDMxXkEyXkFqcGdeQXVyNjg3MTQ0Njk@._V1_Ratio0.7727_AL_.jpg","title":"Gay","description":"(2018) (Short)"},{"id":"tt10531824","resultType":"Title","image":"https://imdb-api.com/images/original/MV5BNTgzYWZmYmUtNjM4ZS00ZDJlLWIyZGMtMGExZjlkNjc2MWEzXkEyXkFqcGdeQXVyODg2NjAzMTg@._V1_Ratio0.8636_AL_.jpg","title":"Gay","description":"(2013) (Short)"},{"id":"tt2106739","resultType":"Title","image":"https://imdb-api.com/images/original/MV5BMTU5Mjc2NDc4OF5BMl5BanBnXkFtZTcwNjAzNDc0OA@@._V1_Ratio0.7273_AL_.jpg","title":"Gayby","description":"(2012)"},{"id":"tt2429074","resultType":"Title","image":"https://imdb-api.com/images/original/MV5BMTkxNTk4MTU5Nl5BMl5BanBnXkFtZTgwOTY0NTE4MDE@._V1_Ratio0.7273_AL_.jpg","title":"G.B.F.","description":"(2013) aka \"O Meu Melhor Amigo Gay\""},{"id":"tt1878942","resultType":"Title","image":"https://imdb-api.com/images/original/MV5BMjAwODUzOTQ5Nl5BMl5BanBnXkFtZTgwNzAwMjc5MDE@._V1_Ratio0.7273_AL_.jpg","title":"Date and Switch","description":"(2014) aka \"Mi mejor amigo gay\""},{"id":"tt0087800","resultType":"Title","image":"https://imdb-api.com/images/original/MV5BNzFjZmM1ODgtMDBkMS00NWFlLTg2YmUtZjc3ZTgxMjE1OTI2L2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_Ratio0.7273_AL_.jpg","title":"A Nightmare on Elm Street","description":"(1984)"},{"id":"tt11881160","resultType":"Title","image":"https://imdb-api.com/images/original/MV5BMWU0MzJiMWEtOWQyYi00YTZkLWExYWEtZDZkODRlZDliOTVhXkEyXkFqcGdeQXVyMTAyMjQ3NzQ1._V1_Ratio0.7273_AL_.jpg","title":"Gaia","description":"(2021)"}],"errorMessage":""}
+pprint(dict)
+print(dict["results"])
+print(len(dict["results"]))
+for i in range(len(dict["results"])):
+    print(dict["results"][i]["title"])
