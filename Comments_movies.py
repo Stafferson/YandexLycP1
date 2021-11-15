@@ -29,7 +29,7 @@ class Comments_movies(QWidget):
     def initUI(self):
         global imdb_dict
         global res
-        super(Liked_movies, self).__init__()
+        super().__init__()
         self.setGeometry(0, 0, 600, 1000)
         self.setWindowTitle("Films App")
         self.w = None
@@ -98,11 +98,11 @@ class Comments_movies(QWidget):
                 self.label1.addItem("Add some movies first")
         else:
             self.any_favorite = True
-            print(len(res))
+            #print(len(res))
             for i in range(len(res)):
                 api_link = "https://imdb-api.com/en/API/Title/" + global_vars.var_API + "/" + res[i][0]
-                print("12")
-                print(res[i][0])
+                #print("12")
+                #print(res[i][0])
                 #api_link = "https://imdb-api.com/en/API/Title/k_8fn0w7v6/tt0110413"
                 #print(api_link)
                 #self.get_info(search_type, film_title, api_link)
@@ -112,7 +112,7 @@ class Comments_movies(QWidget):
                 self.label1.addItem(fav_film_dict["fullTitle"])
                 #print(fav_film_dict["fullTitle"])
                 self.label1.itemClicked.connect(self.click)
-                print("12121")
+                #print("12121")
 
 
 if __name__ == "__main__":

@@ -12,6 +12,8 @@ import Film_info_screen
 import Liked_movies
 import Watched_movies
 import global_vars
+import Comments_movies
+
 counter = 10
 
 #imdb_dict = {}
@@ -31,6 +33,9 @@ class Main_Screen(QWidget):
         self.setGeometry(0, 0, 1500, 1000)
         self.setWindowTitle("Films App")
         self.w = None
+        self.w1 = None
+        self.w2 = None
+
 
         #thread1 = threading.Thread(target=self.thread_function)
         #thread1.start()
@@ -50,9 +55,9 @@ class Main_Screen(QWidget):
         self.label3.setText("My watched movies")
         self.label3.clicked.connect(lambda: self.move("3"))
 
-        #self.label4 = QPushButton(self)
-        #self.label4.setGeometry(20, 530, 300, 150)
-        #self.label4.setText("My statistics")
+        self.label4 = QPushButton(self)
+        self.label4.setGeometry(20, 530, 300, 150)
+        self.label4.setText("My statistics")
         #self.label4.clicked.connect(lambda: self.move("4"))
 
         self.label5 = QListWidget(self)
@@ -142,34 +147,35 @@ class Main_Screen(QWidget):
     def move(self, num):
         if (num == "1"):
             if self.w is None:
-                #print("112312132")
+                print("1")
                 self.w = Liked_movies.Liked_movies()
+                #self.w = Comments_movies.Comments_movies()
                 self.w.show()
                 self.close()
             else:
-                #print("11233232323232")
+                print("1.1")
                 self.w.close()
                 self.w = None
-        if (num == "2"):
-            if self.w is None:
-                # print("112312132")
-                self.w = Comments_movies.Comments_movies()
-                self.w.show()
+        elif (num == "2"):
+            if self.w1 is None:
+                print("2")
+                self.w1 = Comments_movies.Comments_movies()
+                self.w1.show()
                 self.close()
             else:
-                # print("11233232323232")
-                self.w.close()
-                self.w = None
-        if (num == "3"):
-            if self.w is None:
-                #print("112312132")
-                self.w = Watched_movies.Watched_movies()
-                self.w.show()
+                print("2.1")
+                self.w1.close()
+                self.w1 = None
+        elif (num == "3"):
+            if self.w2 is None:
+                print("3")
+                self.w2 = Watched_movies.Watched_movies()
+                self.w2.show()
                 self.close()
             else:
-                #print("11233232323232")
-                self.w.close()
-                self.w = None
+                print("3.1")
+                self.w2.close()
+                self.w2 = None
 
 
 if __name__ == "__main__":
